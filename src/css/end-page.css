@@ -1,0 +1,22 @@
+#final-score{
+    font-size: 10rem;
+    position: absolute;
+    text-align: center;
+    left: 50%; top: 50%; 
+    transform: translate(-50%, -50%)
+}
+
+#final-score::before{
+    position: absolute;
+    content: "Final Score:";
+    font-size: 5rem;
+    left: 50%; top: calc(50% - 5ex);
+    transform: translate(-50%, -50%)
+}
+
+#play-again{
+    position: absolute;
+    top: calc(50% + 5ex); left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+}

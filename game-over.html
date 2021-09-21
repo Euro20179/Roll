@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Over</title>
+    <link rel="stylesheet" href="src/css/end-page.css">
+</head>
+<body>
+    <a href="./index.html"><button id="play-again">Play again</button></a>
+</body>
+<script>
+    const finalScore = document.createElement("div");
+    finalScore.id = "final-score"
+    const urlQuery = new URLSearchParams(window.location.search);
+    finalScore.innerHTML = String(urlQuery.get("score"))
+    document.body.append(finalScore)
+</script>
+</html>

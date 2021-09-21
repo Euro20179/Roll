@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roll</title>
+    <link rel="stylesheet" href="src/css/main.css" />
+    <link rel="stylesheet" href="src/css/shop.css" />
+</head>
+<body>
+    <game id="game">
+        <div class="score-board">
+            <div id="score">0</div>
+            <div id="rolls-left">1000</div>
+            <div id="average-roll-since-purchace">0</div>
+        </div>
+        <a href="#shop"><button id="shop-button">Shop</button></a>
+        <div class="die-holder">
+        </div>
+    </game>
+
+    <shop id="shop">
+        <button class="shop-refresh" onclick="refreshShop(basicShopAmount, shopLevel)">Refresh shop</button>
+        <button class="upgrade-shop" onclick="upgradeShop()"></button>
+        <div class="shop-items"></div>
+    </shop>
+    
+    <dice-menu id="dice-menu" class="hidden">
+        <div id="dice-menu-grid">
+        </div>
+    </dice-menu>
+</body>
+</html>
+<script src="src/js/main.js"></script>
+<script src="src/js/shop.js"></script>

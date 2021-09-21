@@ -1,0 +1,70 @@
+html{
+    font-family: arial,sans-serif;
+    font-size: 2rem;
+}
+button{
+    font-size: 1rem;
+}
+
+#score::before{
+    content: "Dots: "
+}
+
+#score{
+    text-emphasis: bold;
+}
+
+#rolls-left::before{
+    content: "Rolls left: "
+}
+#rolls-left{
+    top: 0;
+    right: 0; 
+}
+
+#average-roll-since-purchace::before{
+    content: "Ave Roll Since Last Purchace: "
+}
+
+.item{
+    cursor: help
+}
+
+.die-holder{
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    align-items: center;
+    gap: 1%;
+    user-select: none;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    outline: 1px solid green;
+}
+
+@keyframes die-hover {
+    100%{
+        font-size: 1.5em;
+    }    
+}
+
+.die-holder:hover .die{
+    animation: die-hover .5s ease-in-out alternate infinite;
+}
+
+.die{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: min(100px, 10vw);
+    height: min(100px, 10vw);
+    border: 2px solid black;
+    border-radius: 2%;
+}
+
+.hidden{
+    display: none;
+}
