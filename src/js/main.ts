@@ -11,9 +11,16 @@ let averageRoll = 0
 let rolls = 0
 let rollsSinceLastPurchase = 0
 
+//@ts-ignore
+let queryString = new URLSearchParams(window.location.search)
+console.log(queryString.get("rolls"))
+rollsLeftDisplay.innerHTML = queryString.get("rolls")
+
 function updateRolls(){
     rolls++;
     rollsSinceLastPurchase++
+        //@ts-ignore
+    rollsLeftDisplay.innerHTML -= 1
 }
 function updateScore(updateAmount: number){
     score += updateAmount
@@ -113,6 +120,10 @@ function oneNumDie(num: number){
     return new Die(sides)
 }
 
+function oneSideDie(num: number){
+    return new Die(new DiceSide(() => num, String(num)))
+}
+
 let dice = [basicDie()]
 
 function rollDice(){
@@ -122,17 +133,25 @@ function rollDice(){
         let side = die.roll()
         switch(side.type){
             case "number":
+                for(let modifier in side.modifiers){
+                    switch(modifier){
+                        case "increment":
+                            side.text = Number(side.text) + side.modifiers["increment"]
+                    }
+                }
                 Ltotal += Number(side.text)
                 break
         }
     }
+    rollsLeftDisplay.setAttribute("data-minus-one", "-1")
     updateRolls()
     updateScore(Ltotal)
     //@ts-ignore
-    rollsLeftDisplay.innerHTML -= 1 //although innerHTML is a String, -= 1 will treat it as a Number
     if(Number(rollsLeftDisplay.innerHTML) <= 0){
         //@ts-ignore
-        window.location = `./game-over.html?score=${score}`
+        const finalScore = score
+        //@ts-ignore
+        window.location = `./game-over.html?score=${finalScore}`
     }
 }
 
@@ -140,7 +159,7 @@ dieHolder.addEventListener("click", e => {
         rollDice()
 })
 addEventListener("keydown", e => {
-    if(e.key == "space"){
+    if(e.key == " "){
         rollDice()
     }
 })

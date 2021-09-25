@@ -4,37 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roll</title>
-    <link rel="stylesheet" href="src/css/main.css" />
-    <link rel="stylesheet" href="src/css/shop.css" />
+    <title>Start</title>
 </head>
 <body>
-    <game id="game">
-        <div class="score-board">
-            <div id="score" data-score-increase=0>0</div>
-            <div id="rolls-left">1000</div>
-            <div id="average-roll-since-purchace">0</div>
-        </div>
-        <a href="#shop"><button id="shop-button">Shop</button></a>
-        <button id="to-dice-menu" onclick=diceSelectionMenu(false)>Dice menu</button>
-        <div class="die-holder">
-        </div>
-    </game>
-    <hr id="game-shop-sep">
-    <shop id="shop">
-        <div class="shop-buttons">
-            <button class="shop-refresh" onclick="refreshShop(basicShopAmount, shopLevel)">Refresh shop</button>
-            <button class="upgrade-shop" onclick="upgradeShop()"></button>
-        </div>
-        <div class="shop-items"></div>
-    </shop>
-    
-    <dice-menu id="dice-menu" class="hidden">
-        <div id="dice-menu-grid">
-        </div>
-    </dice-menu>
+    <label>Roll Count: </label><input type="number" id="roll-count-input" value=1000> 
+    <input type="submit" value="Start" onclick=prepareValues()>
 </body>
 </html>
-<script src="src/js/main.js"></script>
-<script src="src/js/items.js"></script>
-<script src="src/js/shop.js"></script>
+<script src="src/js/start.js"></script>

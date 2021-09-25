@@ -1,5 +1,7 @@
 :root{
     --money-color: rgb(255, 220, 106);
+    --upgrade-color: rgb(86, 241, 208);
+    --border-radius: 10px;
 }
 
 .shop-buttons{
@@ -10,7 +12,30 @@
 
 .shop-refresh{
     position: absolute;
+    border: none;
     left: 0;
+    filter: drop-shadow(15px 5px 2px rgb(201, 223, 231));    
+    border-radius: var(--border-radius);
+    background: #b7fff7;
+}
+
+.shop-refresh:hover{
+    border: 2px solid rgb(195, 227, 241);
+    animation: refresh-hover-anim .2s linear alternate;
+    animation-fill-mode: forwards;
+}
+
+
+@keyframes refresh-hover-anim {
+   0%{
+       filter: drop-shadow(15px 5px 2px rgb(201, 223, 231));
+   }
+   50%{
+       filter: drop-shadow(20px 10px 4px rgb(201, 223, 231)); 
+   }
+   100%{
+        filter: drop-shadow(25px 15px 6px rgb(201, 223, 231)); 
+   }
 }
 
 .shop-items{
@@ -22,10 +47,33 @@
 
 .upgrade-shop{
     margin-left: 0%;
+    border:none;
+    border-radius: var(--border-radius);
+    filter: drop-shadow(15px 5px 2px rgb(201, 223, 231));
 }
 
 .upgrade-shop::before{
     content: "Upgrade Shop: "
+}
+
+.upgrade-shop:hover{
+    animation: upgrade-button-active 1s ease-in-out alternate infinite
+
+}
+@keyframes upgrade-button-active{
+    0%{
+        background-color: rgb(23, 255, 43);
+
+    }
+    33%{
+        background-color: rgb(27, 255, 114);
+    }
+    66%{
+        background-color: rgb(17, 255, 156);
+    }
+    100%{
+        background-color: rgb(2, 255, 255) 
+    }
 }
 
 .buy-button{
@@ -36,6 +84,10 @@
 }
 .buy-button:hover{
     animation: buy-button-hover .5s cubic-bezier(0.48, 0.99, 0.74, 0.99) infinite alternate-reverse;    
+}
+
+.buy-button[disabled]:hover{
+    animation: none;
 }
 
 @keyframes buy-button-hover{

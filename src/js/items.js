@@ -112,3 +112,13 @@ class NewOneSidedDice extends Item {
         return false;
     }
 }
+class Increment extends DiceItem {
+    constructor(number) {
+        super(number * 100 * priceMultiplier * dice.length, `${number}++`, `The side this is applied to will increase by ${number} each time the side is rolled`);
+        this.number = number;
+    }
+    applyFunction(diceSide) {
+        diceSide.modifiers["increment"] = this.number;
+        return {};
+    }
+}

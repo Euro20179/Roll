@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap');
 html{
-    font-family: arial,sans-serif;
+    font-family: 'DejaVu', arial, sans-serif;
     font-size: 2rem;
 }
+
 button{
     font-size: 1rem;
 }
@@ -30,6 +32,12 @@ button{
 #rolls-left{
     top: 0;
     right: 0; 
+}
+#rolls-left::after{
+    content: attr(data-minus-one);
+    color: rgb(218, 66, 66);
+    vertical-align: top;
+    font-size: .8em;
 }
 
 #average-roll-since-purchace::before{
@@ -74,6 +82,8 @@ button{
     border: 2px solid black;
     border-radius: 2%;
 }
+
+
 
 .hidden{
     display: none;

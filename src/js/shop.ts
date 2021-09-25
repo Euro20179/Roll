@@ -6,6 +6,7 @@ const upgradeShopButton = document.querySelector(".upgrade-shop") as HTMLButtonE
 
 const basicShopAmount = 6
 const maxShopLevel = 2
+let refreshes = 0
 let shopLevel = 1
 let priceMultiplier = 1.0
 const calculateUpgradeShopCost = (shopLevel: number) => Math.floor(shopLevel ** 2 * 1000)
@@ -37,13 +38,21 @@ function diceSelectionMenu(buying: boolean) {
     }
 }
 
-const itemsForShopLevels = {
-    1: [ConstNumber,  Incrementer],
-    2: this[1] + [NewRandNumDice, NewDice]
+function getItems(shopLevel){
+    switch(shopLevel){
+        case 1:
+            return [ConstNumber,  Incrementer]
+        case 2:
+            return [ConstNumber, Incrementer, NewRandNumDice, NewDice]           
+        case 3:
+            return [ConstNumber, Incrementer, NewRandNumDice, NewDice, NewOneSidedDice]           
+        case 4:
+            return [ConstNumber, Incrementer, NewRandNumDice, NewDice, NewOneSidedDice, Increment]           
+    }
 }
 
 function* generateItems(number: number, shopLevel: number) {
-    let itemChoices = itemsForShopLevels[shopLevel]
+    let itemChoices = getItems(shopLevel)
     for (let i = 0; i < number; i++) {
         switch (itemChoices[Math.floor(Math.random() * itemChoices.length)]) {
             case ConstNumber:
@@ -57,7 +66,14 @@ function* generateItems(number: number, shopLevel: number) {
                 yield new NewRandNumDice(1000 * dice.length, "New Random Die", "Adds a die where all sides are the same number (1-6)")
                 break
             case Incrementer:
-                yield new Incrementer(Math.floor(Math.random() * (Math.max(shopLevel, 6) - 1) + 1))
+                yield new Incrementer(Math.floor(Math.random() * (Math.max(shopLevel, 6) - dice.length) + dice.length))
+                break;
+            case NewOneSidedDice:
+                yield new NewOneSidedDice(shopLevel * refreshes * priceMultiplier * 1000, "Dice(1)", "adds a dice with 1 side")
+                break;
+            case Increment:
+                yield new Increment(Math.floor(Math.random() * (dice.length - 1)) + 1)
+                break;
         }
     }
 }
@@ -81,6 +97,7 @@ function upgradeShop() {
 }
 
 function refreshShop(itemCount: number, shopLevel: number) {
+    refreshes++
     const shopItems = document.querySelector(".shop-items")
     while (shopItems.children.length > 0) {
         shopItems.removeChild(shopItems.children[shopItems.children.length - 1])
