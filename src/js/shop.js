@@ -7,10 +7,10 @@ const basicShopAmount = 6;
 const maxShopLevel = 2;
 let shopLevel = 1;
 let priceMultiplier = 1.0;
-const calculateUpgradeShopCost = (shopLevel, priceMultiplier) => Math.floor(shopLevel * 1000 * priceMultiplier);
-let upgradeShopCost = calculateUpgradeShopCost(shopLevel, priceMultiplier);
+const calculateUpgradeShopCost = (shopLevel) => Math.floor(Math.pow(shopLevel, 2) * 1000);
+let upgradeShopCost = calculateUpgradeShopCost(shopLevel);
 let currentApplyingItem;
-function diceSelectionMenu() {
+function diceSelectionMenu(buying) {
     game.classList.add("hidden");
     shop.classList.add("hidden");
     diceMenu.classList.remove("hidden");
@@ -18,122 +18,31 @@ function diceSelectionMenu() {
         diceMenuGrid.removeChild(diceMenuGrid.children[diceMenuGrid.children.length - 1]);
     }
     for (let die of dice) {
-        die.renderLayout();
+        die.renderLayout(buying);
+    }
+    if (!buying) {
+        let backButton = document.createElement("button");
+        backButton.classList.add("back-button");
+        backButton.innerHTML = "Back";
+        backButton.onclick = () => {
+            diceMenu.classList.add("hidden");
+            game.classList.remove("hidden");
+            shop.classList.remove("hidden");
+            backButton.remove();
+        };
+        diceMenu.append(backButton);
     }
 }
-let items = [];
-class Item {
-    constructor(price, text, description) {
-        this.text = text;
-        this.description = description;
-        this.price = Math.floor(price * priceMultiplier);
-    }
-    canBuy() {
-        if (this.price > score) {
-            alert("You do not have enough money to buy this");
-            return false;
-        }
-        return true;
-    }
-    postBuy() {
-        updateScore(-this.price);
-        this.element.classList.add("bought");
-        this.element.querySelector("button").disabled = true;
-    }
-    createElement() {
-        this.element = document.createElement("div");
-        this.element.classList.add("item");
-        this.element.title = this.description;
-        //2nd br is for the button element
-        this.element.innerHTML = `$${this.price}<br>${this.text}<br>`;
-        let buyButton = document.createElement("button");
-        buyButton.innerHTML = "BUY!";
-        buyButton.classList.add("buy-button");
-        buyButton.addEventListener('click', e => {
-            //@ts-ignore
-            this.buy();
-            rollsSinceLastPurchase = 0;
-            currentAverageRoll = 0;
-        });
-        this.element.append(buyButton);
-        shopGrid.append(this.element);
-    }
-}
-class DiceItem extends Item {
-    applyTo(diceSide) {
-        let newInfo = this.applyFunction();
-        for (let i in newInfo) {
-            diceSide[i] = newInfo[i];
-        }
-    }
-    buy() {
-        if (super.canBuy()) {
-            diceSelectionMenu();
-            currentApplyingItem = this;
-            this.postBuy();
-            return true;
-        }
-        return false;
-    }
-    applyFunction() {
-        return {};
-    }
-}
-class ConstNumber extends DiceItem {
-    constructor(number) {
-        super(number * 10, `${number}`, `Sets the number on 1 side of a dice to ${number}`);
-        this.number = number;
-    }
-    applyFunction() {
-        return { text: String(this.number) };
-    }
-}
-class Incrementer extends DiceItem {
-}
-class NewDice extends Item {
-    buy() {
-        if (super.canBuy()) {
-            dice.push(basicDie());
-            super.postBuy();
-            return true;
-        }
-        return false;
-    }
-}
-class NewRandNumDice extends Item {
-    buy() {
-        if (super.canBuy()) {
-            dice.push(oneNumDie(Math.floor(Math.random() * 5) + 1));
-            super.postBuy();
-            return true;
-        }
-        return false;
-    }
-}
-class NewOneSidedDice extends Item {
-    buy() {
-        if (super.canBuy()) {
-            dice.push(new Die([new DiceSide(() => 1, "1")]));
-            super.postBuy();
-            return true;
-        }
-        return false;
-    }
-}
-function getItemChoices(shopLevel) {
-    switch (shopLevel) {
-        case 1:
-            return [ConstNumber, NewDice];
-        case 2:
-            return [ConstNumber, NewDice, NewRandNumDice];
-    }
-}
+const itemsForShopLevels = {
+    1: [ConstNumber, Incrementer],
+    2: this[1] + [NewRandNumDice, NewDice]
+};
 function* generateItems(number, shopLevel) {
-    let itemChoices = getItemChoices(shopLevel);
+    let itemChoices = itemsForShopLevels[shopLevel];
     for (let i = 0; i < number; i++) {
         switch (itemChoices[Math.floor(Math.random() * itemChoices.length)]) {
             case ConstNumber:
-                //give a constant number from number of dice to 10 * number of dice
+                //give a constant number from number of dice to 5 * number of dice
                 yield new ConstNumber(Math.floor(Math.random() * (10 * dice.length - dice.length)) + dice.length);
                 break;
             case NewDice:
@@ -142,6 +51,8 @@ function* generateItems(number, shopLevel) {
             case NewRandNumDice:
                 yield new NewRandNumDice(1000 * dice.length, "New Random Die", "Adds a die where all sides are the same number (1-6)");
                 break;
+            case Incrementer:
+                yield new Incrementer(Math.floor(Math.random() * (Math.max(shopLevel, 6) - 1) + 1));
         }
     }
 }
@@ -149,7 +60,7 @@ function updateShopButton(text) {
     upgradeShopButton.innerHTML = text;
 }
 function upgradeShop() {
-    let upgradeCost = calculateUpgradeShopCost(shopLevel, priceMultiplier);
+    let upgradeCost = calculateUpgradeShopCost(shopLevel);
     if (upgradeShopCost > score) {
         alert("You do not have enough money to upgrade");
         return false;
@@ -159,7 +70,8 @@ function upgradeShop() {
         return false;
     }
     shopLevel++;
-    updateShopButton(String(upgradeCost));
+    updateShopButton(String(calculateUpgradeShopCost(shopLevel)));
+    updateScore(-upgradeCost);
 }
 function refreshShop(itemCount, shopLevel) {
     const shopItems = document.querySelector(".shop-items");
@@ -172,5 +84,5 @@ function refreshShop(itemCount, shopLevel) {
     }
     priceMultiplier += .05;
 }
-updateShopButton(String(calculateUpgradeShopCost(shopLevel, priceMultiplier)));
+updateShopButton(String(calculateUpgradeShopCost(shopLevel)));
 refreshShop(basicShopAmount, shopLevel);

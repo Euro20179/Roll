@@ -11,18 +11,21 @@
 <body>
     <game id="game">
         <div class="score-board">
-            <div id="score">0</div>
+            <div id="score" data-score-increase=0>0</div>
             <div id="rolls-left">1000</div>
             <div id="average-roll-since-purchace">0</div>
         </div>
         <a href="#shop"><button id="shop-button">Shop</button></a>
+        <button id="to-dice-menu" onclick=diceSelectionMenu(false)>Dice menu</button>
         <div class="die-holder">
         </div>
     </game>
-
+    <hr id="game-shop-sep">
     <shop id="shop">
-        <button class="shop-refresh" onclick="refreshShop(basicShopAmount, shopLevel)">Refresh shop</button>
-        <button class="upgrade-shop" onclick="upgradeShop()"></button>
+        <div class="shop-buttons">
+            <button class="shop-refresh" onclick="refreshShop(basicShopAmount, shopLevel)">Refresh shop</button>
+            <button class="upgrade-shop" onclick="upgradeShop()"></button>
+        </div>
         <div class="shop-items"></div>
     </shop>
     
@@ -33,4 +36,5 @@
 </body>
 </html>
 <script src="src/js/main.js"></script>
+<script src="src/js/items.js"></script>
 <script src="src/js/shop.js"></script>

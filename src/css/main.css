@@ -11,7 +11,17 @@ button{
 }
 
 #score{
-    text-emphasis: bold;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+    color: darkgreen;
+}
+
+#score::after{
+    content: "+" attr(data-score-increase);
+    color: limegreen;
+    font-size: .8em;
+    vertical-align: top;
 }
 
 #rolls-left::before{
@@ -67,4 +77,11 @@ button{
 
 .hidden{
     display: none;
+}
+
+#game-shop-sep{
+    --gap-size: 10vh;
+    border: .1vh dashed black;
+    margin-top: calc(var(--gap-size) / 2);
+    margin-bottom: calc(var(--gap-size) / 2);
 }

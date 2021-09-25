@@ -20,8 +20,10 @@ function updateScore(updateAmount) {
         totalEarned += updateAmount;
         //recalculate the average (rollsSinceLastPurchase - 1 because it will be 1 too high)
         currentAverageRoll = ((currentAverageRoll * (rollsSinceLastPurchase - 1)) + updateAmount) / (rollsSinceLastPurchase || 1);
-        rollsSincePurchaceDisplay.innerHTML = String(currentAverageRoll);
-        rollsSincePurchaceDisplay.title = `Full Ave: ${averageRoll}`;
+        averageRoll = ((averageRoll * (rolls - 1)) + updateAmount) / (rolls || 1);
+        rollsSincePurchaceDisplay.innerHTML = String(Math.round(currentAverageRoll));
+        rollsSincePurchaceDisplay.title = `Full Ave: ${Math.round(averageRoll)}`;
+        scoreDisplay.setAttribute("data-score-increase", String(updateAmount));
     }
     scoreDisplay.innerHTML = String(score);
     scoreDisplay.title = `Total earned: ${totalEarned}`;
@@ -62,7 +64,7 @@ class Die {
         dieHolder.append(dieElement);
         this.element = dieElement;
     }
-    renderLayout() {
+    renderLayout(buying) {
         let container = document.createElement("div");
         container.classList.add("die-container");
         for (let side of this.sides) {
@@ -70,7 +72,8 @@ class Die {
             sideElem.innerHTML = side.text;
             sideElem.classList.add("die-square");
             sideElem.addEventListener("click", e => {
-                currentApplyingItem.applyTo(side);
+                if (buying)
+                    currentApplyingItem.applyTo(side);
                 diceMenu.classList.add("hidden");
                 game.classList.remove("hidden");
                 shop.classList.remove("hidden");

@@ -1,3 +1,7 @@
+html{
+    font-family: arial;
+}
+
 #final-score{
     font-size: 10rem;
     position: absolute;

@@ -1,3 +1,18 @@
+:root{
+    --money-color: rgb(255, 220, 106);
+}
+
+.shop-buttons{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3vh;
+}
+
+.shop-refresh{
+    position: absolute;
+    left: 0;
+}
+
 .shop-items{
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
@@ -5,8 +20,33 @@
     row-gap: 2ex;
 }
 
+.upgrade-shop{
+    margin-left: 0%;
+}
+
 .upgrade-shop::before{
     content: "Upgrade Shop: "
+}
+
+.buy-button{
+    color: invert(1);
+    background-color: var(--money-color);
+    border: 3px dashed black;
+    cursor: pointer;
+}
+.buy-button:hover{
+    animation: buy-button-hover .5s cubic-bezier(0.48, 0.99, 0.74, 0.99) infinite alternate-reverse;    
+}
+
+@keyframes buy-button-hover{
+    0%{
+        color: rgb(0, 177, 0);
+        border-color: currentColor;
+    }
+    100%{
+        color: black;
+        border-color: currentColor
+    }
 }
 
 #dice-menu-grid{
