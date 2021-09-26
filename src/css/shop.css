@@ -20,6 +20,7 @@
     background: var(--shop-default-color);
 }
 
+.upgrade-shop:hover,
 .shop-refresh:hover{
     border: 2px solid rgb(195, 227, 241);
     animation: refresh-hover-anim .2s linear alternate;
@@ -47,6 +48,7 @@
 }
 
 .upgrade-shop{
+    position: absolute;
     margin-left: 0%;
     border:none;
     border-radius: var(--border-radius);
@@ -58,10 +60,10 @@
     content: "Upgrade Shop: "
 }
 
-.upgrade-shop:hover{
+/*.upgrade-shop:hover{
     animation: upgrade-button-active 1s ease-in-out alternate infinite
 
-}
+}*/
 @keyframes upgrade-button-active{
     0%{
         background-color: rgb(23, 255, 43);
