@@ -2,6 +2,7 @@
     --money-color: rgb(255, 220, 106);
     --upgrade-color: rgb(86, 241, 208);
     --border-radius: 10px;
+    --shop-default-color: #b7fff7;
 }
 
 .shop-buttons{
@@ -16,7 +17,7 @@
     left: 0;
     filter: drop-shadow(15px 5px 2px rgb(201, 223, 231));    
     border-radius: var(--border-radius);
-    background: #b7fff7;
+    background: var(--shop-default-color);
 }
 
 .shop-refresh:hover{
@@ -50,6 +51,7 @@
     border:none;
     border-radius: var(--border-radius);
     filter: drop-shadow(15px 5px 2px rgb(201, 223, 231));
+    background: var(--shop-default-color);
 }
 
 .upgrade-shop::before{
